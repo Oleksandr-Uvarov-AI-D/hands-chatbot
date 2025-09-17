@@ -5,10 +5,11 @@
     
     const config = {
         branding: {
-            logo: "../build/logo.svg",
-            name: 'hands',
+            // logo: "../build/logo.svg",
+            logo: "../build/logo.png",
+            name: "",
             welcomeText: 'Hallo, hoe kunnen we je helpen?',
-            responseTimeText: 'Onze AI-assistent Jaimes staat voor je klaar',
+            responseTimeText: 'Onze AI-assistent John staat voor je klaar',
             poweredBy: {
                 text: 'Powered by ai-d',
                 link: 'https://ai-d.be'
@@ -99,7 +100,8 @@
     let userConversationMessage;
 
     async function endConversation() {
-        const response = await fetch("http://127.0.0.1:8000/end_conversation", {
+        // const response = await fetch("http://127.0.0.1:8000/end_conversation", {
+        const response = await fetch("https://hands-chatbot.onrender.com/end_conversation", {
             method: "POST",
             headers: {"Content-type": "application/json"},
             body: JSON.stringify({thread_id: sessionStorage.getItem("thread_id")})
@@ -154,11 +156,12 @@
             chatContainer.querySelector('.brand-header').style.display = 'none';
             chatContainer.querySelector('.new-conversation').style.display = 'none';
             chatInterface.classList.add('active');
-            appendBotMessage("Hallo, ik ben Jaimes, de AI-assistent van AI-D. Waarmee kan ik je vandaag helpen?");
+            appendBotMessage("Hallo, ik ben John, de AI-assistent van hands. Waarmee kan ik je vandaag helpen?");
         }
 
 
-        const response = await fetch("http://127.0.0.1:8000/start", {
+        // const response = await fetch("http://127.0.0.1:8000/start", {
+        const response = await fetch("https://hands-chatbot.onrender.com/start", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({message: messageToSend})
@@ -195,7 +198,8 @@
             thread_id = sessionStorage.getItem("thread_id");
         }
 
-        const response = await fetch("http://127.0.0.1:8000/chat", {
+        // const response = await fetch("http://127.0.0.1:8000/chat", {
+        const response = await fetch("https://hands-chatbot.onrender.com/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({message: userMessage, thread_id: sessionStorage.getItem("thread_id")})

@@ -1,6 +1,6 @@
 .ai-d-chat-widget {
-    --chat--color-primary: var(--ai-d-chat-primary-color, #ff6900);
-    --chat--color-secondary: var(--ai-d-chat-secondary-color, #ff6900);
+    --chat--color-primary: var(--ai-d-chat-primary-color, #ec6608);
+    --chat--color-secondary: var(--ai-d-chat-secondary-color, #ec6608);
     --chat--color-background: var(--ai-d-chat-background-color, #ffffff);
     --chat--color-font: var(--ai-d-chat-font-color, #333333);
     font-family: 'Geist Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -64,8 +64,8 @@
 }
 
 .ai-d-chat-widget .brand-header img {
-    width: 72px;
-    height: 32px;
+    width: 108px;
+    height: 23px;
 }
 
 .ai-d-chat-widget .brand-header span {
@@ -86,6 +86,7 @@
 }
 
 .ai-d-chat-widget .welcome-text {
+    font-family: Poppins,sans-serif;
     font-size: 24px;
     font-weight: 600;
     color: var(--chat--color-font);
@@ -108,7 +109,7 @@
     font-size: 16px;
     transition: transform 0.3s;
     font-weight: 500;
-    font-family: inherit;
+    font-family: Rubik,"sans-serif";
     margin-bottom: 12px;
 }
 
@@ -122,6 +123,7 @@
 }
 
 .ai-d-chat-widget .response-text {
+    font-family: Rubik,"sans-serif";
     font-size: 14px;
     color: var(--chat--color-font);
     opacity: 0.7;
