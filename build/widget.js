@@ -6,7 +6,8 @@
     const config = {
         branding: {
             // logo: "../build/logo.svg",
-            logo: "../build/logo.png",
+            // logo: "../build/logo.png",
+            logo: "https://hands-widget.onrender.com/logo.png",
             name: "",
             welcomeText: 'Hallo, hoe kunnen we je helpen?',
             responseTimeText: 'Onze AI-assistent John staat voor je klaar',
