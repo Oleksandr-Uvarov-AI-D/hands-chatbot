@@ -28,7 +28,7 @@ event_type_id = int(os.getenv("EVENT_TYPE_ID_MIGUEL"))
 agent_data, agent_summary, agent_summary_thread = get_agents()
 
 
-def try_to_make_an_appointment(chatbot_message):
+async def try_to_make_an_appointment(chatbot_message):
     try: 
         # The input is always in dict type, so here we extract the message.
         # The other dict keys are role and thread_id.
@@ -64,8 +64,7 @@ def try_to_make_an_appointment(chatbot_message):
 
             
             make_message(thread_id, "assistant", msg)
-            # run = run_agent(agent_summary_thread.id, agent_summary.id)
-            run = run_agent(thread_id, agent_data.id)
+            run = await run_agent(thread_id, agent_data.id)
 
             print(get_message_list(thread_id))
 
