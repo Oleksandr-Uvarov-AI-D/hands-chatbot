@@ -35,14 +35,8 @@ app = FastAPI(lifespan=lifespan)
 # Allow frontend (JavaScript in browser) to talk to backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
-    # allow_origins=["https://ai-d.be", "https://ai-d.be/diensten/ai-delivery/", "https://ai-d.be/diensten/training/",
-    #                "https://ai-d.be/diensten/ai-hardware-robotics/", "https://ai-d.be/diensten/aid/",
-    #                "https://ai-d.be/nieuws/sectoren/tourism/", "https://ai-d.be/nieuws/sectoren/real-estate/", "https://ai-d.be/nieuws/sectoren/insurance/",
-    #                "https://ai-d.be/nieuws/sectoren/hospitality/", "https://ai-d.be/nieuws/sectoren/legal/", "https://ai-d.be/nieuws/sectoren/public-sector/",
-    #                "https://ai-d.be/nieuws/sectoren/media-entertainment/", "https://ai-d.be/over-ons/", "https://ai-d.be/nieuws/"],
-    # allow_origins=["https://widget-code.onrender.com"],  
     # allow_origins=["https://ai-d.be", "https://www.ai-d.be"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -98,7 +92,7 @@ def insert_chatbot_message(thread_id, table_name=None, chatbot_type="data", msg=
     if msg:
         response = (
         supabase.table("chatbot_data")
-        .insert({"role": "assistant", "thread_id": thread_id, "message": msg["message"]})
+        .insert({"role": "assistant", "thread_id": thread_id, "message": msg["message"], "agent_id": agent_data.id})
         .execute()
         )
         return
@@ -133,13 +127,13 @@ def insert_chatbot_message(thread_id, table_name=None, chatbot_type="data", msg=
             except ValueError:
                     response = (
                         supabase.table(table_name)
-                        .insert({"role": "assistant", "thread_id": thread_id, "message": message_to_insert})
+                        .insert({"role": "assistant", "thread_id": thread_id, "message": message_to_insert, "agent_id": agent_data.id})
                         .execute()
                     )
             
-            return {"role": "assistant", "message": message_to_insert, "thread_id": thread_id}
+            return {"role": "assistant", "message": message_to_insert, "thread_id": thread_id, "agent_id": agent_data.id}
     
-    return {"role": "assistant", "message": "No response", "thread_id": thread_id}
+    return {"role": "assistant", "message": "No response", "thread_id": thread_id, "agent_id": agent_data.id}
 
 @app.get("/health")
 async def root():
@@ -175,7 +169,7 @@ async def give_thread_id(request: Request):
     else:
         response_user = (
         supabase.table("chatbot_data")
-        .insert({"role": "user", "message": user_input, "thread_id": thread.id})
+        .insert({"role": "user", "message": user_input, "thread_id": thread.id, "agent_id": agent_data.id})
         .execute()
     )
 
@@ -191,7 +185,7 @@ async def give_thread_id(request: Request):
         return {"role": "assistant", "message": f"Run failed: {run.last_error}"}
     
 
-    chatbot_message =  insert_chatbot_message(thread.id, "chatbot_data")
+    chatbot_message = insert_chatbot_message(thread.id, "chatbot_data")
     
     return chatbot_message
 
@@ -206,7 +200,7 @@ async def chat(request: Request):
 
     response_user = (
         supabase.table("chatbot_data")
-        .insert({"role": "user", "message": user_input, "thread_id": user_thread_id})
+        .insert({"role": "user", "message": user_input, "thread_id": user_thread_id, "agent_id": agent_data.id})
         .execute()
     )
 
@@ -240,6 +234,7 @@ def make_summary(thread_id):
         supabase.table("chatbot_data")
         .select("role, message")
         .eq("thread_id", thread_id)
+        .eq("agent_id", agent_data.id)
         .execute()
         ).data
 
@@ -254,4 +249,4 @@ def make_summary(thread_id):
         # Pass the message onto summary agent
         run = run_agent(agent_summary_thread.id, agent_summary.id)
 
-        insert_chatbot_message(agent_summary_thread.id, "chatbot_summary_data", "summary")
+        insert_chatbot_message(agent_summary_thread.id, "hands_summary_data", "summary")
