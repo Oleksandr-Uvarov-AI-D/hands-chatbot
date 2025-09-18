@@ -2,7 +2,7 @@ import json
 import datetime
 from dateutil import parser
 from zoneinfo import ZoneInfo
-
+import re
 
 def get_month_name(number, language):
     month_name = None
@@ -105,5 +105,24 @@ def extract_json(s: str):
     json_str = s[start:end+1]
     return json.loads(json_str)
 
+def validate_email(email):
+    """Return email if it's validated. Return False otherwise."""
+    is_valid = bool(re.fullmatch(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", email))
 
-print(get_today_date())
+    if is_valid:
+        return email
+    return is_valid
+
+
+def validate_phone(phone):
+    """Return phone if it's validated. Return False otherwise."""
+    if phone[0] == "+":
+        phone_copy = phone[1:]
+    else:
+        phone_copy = phone
+
+    try:
+        phone_copy = int(phone_copy)
+    except ValueError:
+        return False
+    return phone
