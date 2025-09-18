@@ -66,7 +66,7 @@ async def save_finished_threads():
             if time_now - last_message_time > time_limit_user_message:
                 threads_to_remove.append(thread_id)
 
-                make_summary(thread_id)
+                await make_summary(thread_id)
 
         threads_to_check -= 1
         for thread_id in threads_to_remove:
@@ -224,7 +224,7 @@ async def end_conversation(request: Request):
 
     ONGOING_THREADS.pop(thread_id, None)
 
-    make_summary(thread_id)
+    await make_summary(thread_id)
 
 
 
