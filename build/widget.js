@@ -157,7 +157,7 @@
             chatContainer.querySelector('.brand-header').style.display = 'none';
             chatContainer.querySelector('.new-conversation').style.display = 'none';
             chatInterface.classList.add('active');
-            appendBotMessage("Hallo, ik ben John, de AI-assistent van hands. Waarmee kan ik je vandaag helpen?");
+            appendBotMessage("Hallo, ik ben John, de AI-assistent van Hands. Waarmee kan ik je vandaag helpen?");
         }
 
 
@@ -252,6 +252,7 @@
 
     toggleButton.addEventListener('click', () => {
         chatContainer.classList.toggle('open');
+        toggleButton.style.display = "none";
     });
 
 
@@ -260,6 +261,7 @@
     closeButtons.forEach(button => {
         button.addEventListener('click', () => {
             chatContainer.classList.remove('open');
+            toggleButton.style.display = "flex";
         });
     });
 
